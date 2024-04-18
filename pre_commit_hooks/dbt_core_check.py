@@ -39,7 +39,7 @@ def check_package(package: Path) -> int:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("filenames", type=str)
+    parser.add_argument("filenames", type=str, nargs="*")
     args = parser.parse_args()
     for filename in args.filenames:
         check_package(Path(filename))
