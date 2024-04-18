@@ -3,7 +3,7 @@ from pkgutil import extend_path
 
 import pytest
 
-from pre_commit_hooks.dbt_core_check import check
+from pre_commit_hooks.dbt_core_in_adapters_check import check
 
 
 @pytest.fixture(scope="module")
@@ -23,7 +23,7 @@ def dbt_core():
     ("dbt/tests/postgres", 1),
 ]
 )
-def test_module(project_path: str, expected: int):
+def test_check(project_path: str, expected: int):
     absolute_path = Path(__file__).parent / project_path
     assert absolute_path.exists()
     assert check(absolute_path) == expected

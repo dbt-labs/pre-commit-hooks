@@ -1,6 +1,6 @@
 [project]
 name = "pre-commit-hooks"
-description = "This package is a pre-commit hook that verifies that dbt-core functionality is not being used in an adapter."
+description = "This package contains all of dbt's pre-commit hooks."
 version = "0.1.0a1"
 authors = [
     { name = "dbt Labs", email = "info@dbtlabs.com" },
@@ -12,7 +12,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.scripts]
-dbt-core-check = "pre_commit_hooks.dbt_core_check:main"
+dbt-core-in-adapters-check = "pre_commit_hooks.dbt_core_in_adapters_check:main"
 
 [tool.hatch.envs.default]
 dependencies = [

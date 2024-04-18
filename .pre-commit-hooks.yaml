@@ -1,7 +1,7 @@
--   id: dbt-core-check
-    name: Check for dbt-core usage
+-   id: dbt-core-in-adapters-check
+    name: Check for dbt-core usage in an adapter
     description: This hook verifies that dbt-core functionality is not being used in an adapter.
-    entry: dbt-core-check
+    entry: dbt-core-in-adapters-check
     language: python
     types: [python]
     pass_filenames: true
