@@ -4,3 +4,5 @@
     entry: dbt-core-check
     language: python
     types: [python]
+    pass_filenames: true
+~

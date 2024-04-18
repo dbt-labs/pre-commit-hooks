@@ -23,26 +23,42 @@ def is_invalid_import(module: Import) -> bool:
     return len(module) > 1 and module[0] == "dbt" and module[1] not in ["adapters", "include"]
 
 
-def check_package(package: Path) -> int:
-    for module in package.rglob("*.py"):
-        for imported_module in get_imports(module):
-            if is_invalid_import(imported_module):
-                offending_module = module.relative_to(package)
-                imported_module_path = ".".join(imported_module)
-                print(
-                    f"A dbt-core module is imported in {offending_module}:"
-                    f" {imported_module_path}"
-                )
-                return 1
+def check_module(module: Path) -> int:
+    for imported_module in get_imports(module):
+        if is_invalid_import(imported_module):
+            imported_module_path = ".".join(imported_module)
+            print(
+                f"A dbt-core module is imported in {module}:"
+                f" {imported_module_path}"
+            )
+            return 1
     return 0
 
 
-def main():
+def check_package(package: Path) -> int:
+    for module in package.rglob("*.py"):
+        if check_module(module) == 1:
+            return 1
+    return 0
+
+
+def check(path: Path) -> int:
+    if path.is_dir():
+        return check_package(path)
+    elif path.is_file():
+        return check_module(path)
+    print(f"Unexpected path found: {path}")
+    return 1
+
+
+def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("filenames", type=str, nargs="*")
+    parser.add_argument("filenames", type=str, nargs="*", default="dbt")
     args = parser.parse_args()
     for filename in args.filenames:
-        check_package(Path(filename))
+        if check(Path(filename)) == 1:
+            return 1
+    return 0
 
 
 if __name__ == "__main__":
