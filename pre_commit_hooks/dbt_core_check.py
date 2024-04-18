@@ -25,12 +25,10 @@ def get_imports(module: Path) -> Iterator[Import]:
 
 
 def is_invalid_import(module: Import) -> bool:
-    print(f"[Import] Evaluating {module}")
     return len(module) > 1 and module[0] == "dbt" and module[1] not in ["adapters", "include"]
 
 
 def check_module(module: Path) -> int:
-    print(f"[Module] Searching {module}")
     for imported_module in get_imports(module):
         if is_invalid_import(imported_module):
             imported_module_path = ".".join(imported_module)
@@ -43,7 +41,6 @@ def check_module(module: Path) -> int:
 
 
 def check_package(package: Path) -> int:
-    print(f"[Package] Searching {package}")
     for module in package.rglob("*.py"):
         if check_module(module) == 1:
             return 1
