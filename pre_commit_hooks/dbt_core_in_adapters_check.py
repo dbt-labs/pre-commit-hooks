@@ -60,7 +60,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("filenames", type=str, nargs="*", default="dbt")
     args = parser.parse_args()
+    print(args.filenames)
     for filename in args.filenames:
+        print(filename)
         if check(Path(filename)) == 1:
             return 1
     return 0
